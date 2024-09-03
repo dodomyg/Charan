@@ -162,6 +162,13 @@ const refreshAccessToken = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
+    const loggedUser = req.user;
+    const accessToken = redisClient.get(`refreshToken:${loggedUser._id}`);
+    if (!loggedUser || !accessToken) {
+      return res.status(401).send("Unauthorized , cannot fetch profile");
+    }
+    const getUser = await USER.findById(loggedUser._id);
+    return res.status(200).json({ getUser });
   } catch (error) {
     console.log("Error in getProfile", error);
     return res.status(500).send("Internal Server Error");
@@ -173,5 +180,5 @@ module.exports = {
   login,
   logout,
   refreshAccessToken,
-  getProfile
+  getProfile,
 };
