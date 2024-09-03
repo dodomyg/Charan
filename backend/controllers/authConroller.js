@@ -167,7 +167,7 @@ const getProfile = async (req, res) => {
     if (!loggedUser || !accessToken) {
       return res.status(401).send("Unauthorized , cannot fetch profile");
     }
-    const getUser = await USER.findById(loggedUser._id);
+    const getUser = await USER.findById(loggedUser._id).populate("cart.product");
     return res.status(200).json({ getUser });
   } catch (error) {
     console.log("Error in getProfile", error);

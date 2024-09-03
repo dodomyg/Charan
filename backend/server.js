@@ -7,6 +7,8 @@ const connectDb = require("./utils/db");
 const authRoutes = require("./routes/authRoute");
 const productRoutes = require("./routes/productRoute");
 const cookieParser = require("cookie-parser");
+const cartRoutes = require("./routes/cartRoute");
+const paymentRoutes = require("./routes/paymentRoute");
 
 const PORT = process.env.PORT || 8080;
 
@@ -24,6 +26,8 @@ app.use(
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/product",productRoutes);
+app.use("/api/cart",cartRoutes);
+app.use("/api/payment",paymentRoutes);
 
 app.listen(PORT, () => {
   connectDb();

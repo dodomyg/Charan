@@ -16,14 +16,8 @@ const UserSchema = new mongoose.Schema(
     },
     cart: [
       {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-        quantity: {
-          type: Number,
-          default: 0,
-        },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "PRODUCT" },
+        quantity: { type: Number, default: 1 },
       },
     ],
     role: {
