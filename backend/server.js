@@ -28,6 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/product",productRoutes);
 app.use("/api/cart",cartRoutes);
 app.use("/api/payment",paymentRoutes);
+app.use("/api/analytics",analyticsRoute);
 
 app.listen(PORT, () => {
   connectDb();
