@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoute");
 const cookieParser = require("cookie-parser");
 const cartRoutes = require("./routes/cartRoute");
 const paymentRoutes = require("./routes/paymentRoute");
+const analyticsRoutes = require("./routes/analyticsRoute");
 
 const PORT = process.env.PORT || 8080;
 
@@ -25,10 +26,10 @@ app.use(
 
 //routes
 app.use("/api/auth", authRoutes);
-app.use("/api/product",productRoutes);
-app.use("/api/cart",cartRoutes);
-app.use("/api/payment",paymentRoutes);
-app.use("/api/analytics",analyticsRoute);
+app.use("/api/product", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.listen(PORT, () => {
   connectDb();

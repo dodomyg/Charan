@@ -79,7 +79,9 @@ const checkOutSuccess = async (req, res) => {
       const user = await USER.findById(session.metadata.userId);
       user.cart = [];
       await user.save();
-      return res.status(200).json({ message: "Order created successfully",orderId:newOrder._id });
+      return res
+        .status(200)
+        .json({ message: "Order created successfully", orderId: newOrder._id });
     }
   } catch (error) {
     console.log("Error in checkOutSuccess", error);
