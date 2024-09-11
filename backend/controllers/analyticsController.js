@@ -38,4 +38,55 @@ const getAnalytics = async (req, res) => {
   }
 };
 
-module.exports = getAnalytics;
+const getDailySalesData = async (startDate, endDate) => {
+  try {
+    const dailySalesData = await ORDER.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          sales: { $sum: 1 },
+          revenue: { $sum: "$totalAmount" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    const dateArray = getDatesInRange(startDate, endDate);
+
+    return dateArray.map((date) => {
+      const foundData = dailySalesData.find((item) => item._id === date);
+
+      return {
+        date,
+        sales: foundData?.sales || 0,
+        revenue: foundData?.revenue || 0,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getDatesInRange = (startDate, endDate) => {
+  try {
+    const dateArray = [];
+    let currentDate = startDate;
+    while (currentDate <= endDate) {
+      dateArray.push(new Date(currentDate).toISOString().slice(0, 10));
+      currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+    }
+    return dateArray;
+  } catch (error) {
+    console.log("Error in getDatesInRange", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = { getAnalytics, getDailySalesData };
